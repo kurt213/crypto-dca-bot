@@ -25,3 +25,12 @@ Frequently used for DCA (Dollar-Cost Averaging) investment strategies.
 ## Notes
 
 - Originally started working on Binance and connecting to their APIs, but due to some personal consumer issues I've had with them, will be switching focus to Coinbase Pro.
+
+## Guide
+
+1. Create a `.env` file in the root directory of the project and add the following variables:
+
+```
+COINBASE_API_KEY=
+COINBASE_API_SECRET=
+```
