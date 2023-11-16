@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 
 secrets.json
+example_*.json
+
+*.pkl
+test_script.py
