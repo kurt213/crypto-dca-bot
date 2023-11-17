@@ -1,0 +1,16 @@
+[
+    {
+        "frequency": "daily",
+        "day_of_week": null,
+        "time": "10:30",
+        "currency_pair": "ETH/GBP",
+        "quote_currency_amount": 1
+    },
+    {
+        "frequency": "weekly",
+        "day_of_week": "wednesday",
+        "time": "15:45",
+        "currency_pair": "BTC/GBP",
+        "quote_currency_amount": 1
+    }
+]

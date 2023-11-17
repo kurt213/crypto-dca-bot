@@ -133,3 +133,5 @@ example_*.json
 
 *.pkl
 test_script.py
+
+schedule.json

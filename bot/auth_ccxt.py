@@ -118,9 +118,9 @@ if __name__ == '__main__':
 
     #print(ccxt.coinbasepro().describe())
     coinbase = ConnectCoinbase()
-    #coinbase.get_balance()
+    coinbase.get_balance()
     #coinbase.get_markets(currency_pairs)
     #coinbase.get_trades(save_pickle=True)
     #coinbase.create_order('BTC/GBP', 1, save_pickle=True)
-    coinbase.get_trades(save_pickle=True)
+    #coinbase.get_trades(save_pickle=True)
     #print(dir(ccxt.coinbase()))

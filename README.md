@@ -34,3 +34,28 @@ Frequently used for DCA (Dollar-Cost Averaging) investment strategies.
 COINBASE_API_KEY=
 COINBASE_API_SECRET=
 ```
+
+2. Rename or copy the `schedule_template.json` to `schedule.json` and add your schedule details.
+
+The time set is in 24 hour format and is in UTC time.
+
+**NOTE:** Weekly frequency functionality currently not implemented. Only daily schedule available.
+
+```
+[
+    {
+        "frequency": "daily",
+        "day_of_week": null,
+        "time": "10:30",
+        "currency_pair": "ETH/GBP",
+        "quote_currency_amount": 1
+    },
+    {
+        "frequency": "weekly",
+        "day_of_week": "wednesday",
+        "time": "15:45",
+        "currency_pair": "BTC/GBP",
+        "quote_currency_amount": 1
+    }
+]
+```

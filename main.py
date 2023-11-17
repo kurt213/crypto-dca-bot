@@ -1,11 +1,25 @@
-from bot import authorise_api, auth_ccxt
-
+from bot import auth_ccxt
+import schedule, time
+import json
 
 if __name__ == '__main__':
     
-    print('start bot')
-
-    #bot_connect = authorise_api.ConnectBinance()
-    #bot_connect.connect(test_connect=True)
+    print('start DCA bot')
+    print('Connecting to Coinbase API')
     coinbase = auth_ccxt.ConnectCoinbase()
-    coinbase.connect()
+
+    print('Setting Schedules')
+    with open('schedule.json') as f:
+        schedule_data = json.load(f)
+    
+    for s in schedule_data:
+        schedule_time = s['time']
+        currency_pair = s['currency_pair']
+        quote_currency_amount = s['quote_currency_amount']
+
+        schedule.every().day.at(schedule_time).do(lambda: coinbase.create_order(currency_pair, quote_currency_amount))
+        print('Schedule set: Daily at {} | Buy {} for {} source currency'.format(schedule_time, currency_pair, quote_currency_amount))
+
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
