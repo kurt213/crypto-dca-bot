@@ -93,13 +93,24 @@ class ConnectCoinbase():
     def create_order(self, currency_pair=None, amount_quote_currency=None, save_pickle=False):
 
         if self.exchange.has['createMarketOrder']:
-            print('has market order')
-            # Price is hardcoded to 1, i.e. buy x ETH at the price equivalent of 1 GBP
-            order = self.exchange.create_order(currency_pair, 'market', 'buy', amount_quote_currency, 1)
+            print("current UTC time is: {}".format(self.current_datetime))
+            print('try to create market order')
+            print('currency pair: {}'.format(currency_pair))
+            print('amount of quote currency: {}'.format(amount_quote_currency))
 
-            print(order)
-            if save_pickle:
-                self._create_pickle(order, 'example_order.pkl')
+            try:
+                # Price is hardcoded to 1, i.e. buy x ETH at the price equivalent of 1 GBP
+                order = self.exchange.create_order(currency_pair, 'market', 'buy', amount_quote_currency, 1)
+                if order:
+                    print("Order completed successfully")
+                else:
+                    print("No order output, check for failure")
+
+                if save_pickle:
+                    self._create_pickle(order, 'example_order.pkl')
+                    
+            except ccxt.BaseError as e:
+                print('Failed to create order: {}'.format(e))
 
     def _create_pickle(self, data, filename):
 
@@ -118,9 +129,9 @@ if __name__ == '__main__':
 
     #print(ccxt.coinbasepro().describe())
     coinbase = ConnectCoinbase()
-    coinbase.get_balance()
+    #coinbase.get_balance()
     #coinbase.get_markets(currency_pairs)
     #coinbase.get_trades(save_pickle=True)
-    #coinbase.create_order('BTC/GBP', 1, save_pickle=True)
+    coinbase.create_order('ETH/GBP', 1, save_pickle=False)
     #coinbase.get_trades(save_pickle=True)
     #print(dir(ccxt.coinbase()))
