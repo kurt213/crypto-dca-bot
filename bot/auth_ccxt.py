@@ -16,7 +16,10 @@ class ConnectCoinbase():
         self.exchange = exchange_class({
             'apiKey': self.api_key,
             'secret': self.api_secret,
-            'enableRateLimit': True,  # this option enables built-in rate limit
+            'enableRateLimit': True,  # this option enables built-in rate limit,
+            'options': {
+                'createMarketBuyOrderRequiresPrice': True
+            }
         })        
 
         # Check if the exchange is authenticated
@@ -30,15 +33,18 @@ class ConnectCoinbase():
         self.current_datetime = datetime.utcnow()
         print("current UTC time is: {}".format(self.current_datetime))
     
-    def get_balance(self):
+    def get_balance(self, save_pickle=False):
 
         balance = self.exchange.fetch_balance()
         total_all_currencies = balance['total']
 
+        if save_pickle:
+            self._create_pickle(balance, 'example_balance.pkl')
+
         for currency in total_all_currencies:
             print(currency, balance[currency])
 
-    def get_markets(self, currency_pairs=None):
+    def get_markets(self, currency_pairs=None, save_pickle=False):
 
         if currency_pairs is None:
             print('No currency pairs provided, using default')
@@ -49,21 +55,60 @@ class ConnectCoinbase():
 
         self.exchange.load_markets()
 
-        output_dict = {}
+        self.currency_market_pairs = {}
 
         for pair in currency_pairs:
             market_pair = self.exchange.markets[pair]
 
-            output_dict[market_pair['symbol']] = {
+            self.currency_market_pairs[market_pair['symbol']] = {
                     'id': market_pair['id'],
                     'price': market_pair['info']['price'],
                     'base': market_pair['base'],
                     'quote': market_pair['quote']
                 }
         
-        print(output_dict)
+        print(self.currency_market_pairs)
+        if save_pickle:
+            self._create_pickle(self.currency_market_pairs, 'example_markets.pkl')
+
+    def get_trades(self, currency_pairs=None, save_pickle=False):
+
+        if self.exchange.has['fetchMyTrades']:
+            since = self.exchange.parse8601('2023-01-01T00:00:00Z')
+            all_trades = []
+            while since < self.exchange.milliseconds ():
+                symbol = None  # change for your symbol
+                limit = 20  # change for your limit
+                trades = self.exchange.fetch_my_trades(symbol, since, limit)
+                if len(trades):
+                    since = trades[len(trades) - 1]['timestamp'] + 1
+                    all_trades += trades
+                else:
+                    break
             
+            print(all_trades)
+            if save_pickle:
+                self._create_pickle(all_trades, 'example_trades.pkl')
+
+    def create_order(self, currency_pair=None, amount_quote_currency=None, save_pickle=False):
+
+        if self.exchange.has['createMarketOrder']:
+            print('has market order')
+            # Price is hardcoded to 1, i.e. buy x ETH at the price equivalent of 1 GBP
+            order = self.exchange.create_order(currency_pair, 'market', 'buy', amount_quote_currency, 1)
+
+            print(order)
+            if save_pickle:
+                self._create_pickle(order, 'example_order.pkl')
+
+    def _create_pickle(self, data, filename):
+
+        with open(filename, 'wb') as f:
+            pickle.dump(data, f)
         
+        print('Pickle file created: {}'.format(filename))
+
+
 if __name__ == '__main__':
 
     currency_pairs = [
@@ -74,5 +119,8 @@ if __name__ == '__main__':
     #print(ccxt.coinbasepro().describe())
     coinbase = ConnectCoinbase()
     #coinbase.get_balance()
-    coinbase.get_markets(currency_pairs)
+    #coinbase.get_markets(currency_pairs)
+    #coinbase.get_trades(save_pickle=True)
+    #coinbase.create_order('BTC/GBP', 1, save_pickle=True)
+    coinbase.get_trades(save_pickle=True)
     #print(dir(ccxt.coinbase()))
