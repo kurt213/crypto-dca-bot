@@ -59,3 +59,5 @@ The time set is in 24 hour format and is in UTC time.
     }
 ]
 ```
+
+3. Run `main.py` script.
