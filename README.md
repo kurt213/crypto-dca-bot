@@ -12,6 +12,8 @@ I used to buy crypto on a weekly basis, but I found the mainstream providers cha
 
 ## Guide
 
+This guide assumes you have some knowledge of setting up a Python environment and running Python scripts.
+
 1. Create a Coinbase account and generate an API key & secret with the following permissions:
 ```
 wallet:accounts:read
