@@ -2,15 +2,37 @@
     {
         "frequency": "daily",
         "day_of_week": null,
+        "day_of_month": null,
         "time": "10:30",
+        "buy_or_sell": "buy",
         "currency_pair": "ETH/GBP",
         "quote_currency_amount": 1
     },
     {
         "frequency": "weekly",
         "day_of_week": "wednesday",
-        "time": "15:45",
+        "day_of_month": null,
+        "time": "12:45",
+        "buy_or_sell": "buy",
         "currency_pair": "BTC/GBP",
+        "quote_currency_amount": 1
+    },
+    {
+        "frequency": "monthly",
+        "day_of_week": null,
+        "day_of_month": "15",
+        "time": "18:45",
+        "buy_or_sell": "buy",
+        "currency_pair": "ETH/GBP",
+        "quote_currency_amount": 1
+    },
+    {
+        "frequency": "hourly",
+        "day_of_week": null,
+        "day_of_month": null,
+        "time": "09:45",
+        "buy_or_sell": "buy",
+        "currency_pair": "ETH/GBP",
         "quote_currency_amount": 1
     }
 ]

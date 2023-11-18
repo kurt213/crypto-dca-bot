@@ -1,5 +1,4 @@
-from bot import auth_ccxt
-import schedule, time
+from bot import auth_ccxt, scheduler
 import json
 
 if __name__ == '__main__':
@@ -9,17 +8,12 @@ if __name__ == '__main__':
     coinbase = auth_ccxt.ConnectCoinbase()
 
     print('Setting Schedules')
-    with open('schedule.json') as f:
-        schedule_data = json.load(f)
-    
-    for s in schedule_data:
-        schedule_time = s['time']
-        currency_pair = s['currency_pair']
-        quote_currency_amount = s['quote_currency_amount']
+    task_schedule = scheduler.scheduleSetup('schedule.json')
 
-        schedule.every().day.at(schedule_time).do(lambda: coinbase.create_order(currency_pair, quote_currency_amount))
-        print('Schedule set: Daily at {} | Buy {} for {} source currency'.format(schedule_time, currency_pair, quote_currency_amount))
+    for task in task_schedule.schedule_data:
+        currency_pair = task['currency_pair']
+        quote_currency_amount = task['quote_currency_amount']
+        task_schedule.create_schedule(task, lambda: coinbase.create_order(currency_pair, quote_currency_amount))
 
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
+    task_schedule.show_schedule()
+    task_schedule.start_schedule()

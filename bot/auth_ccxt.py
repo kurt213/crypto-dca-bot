@@ -71,13 +71,13 @@ class ConnectCoinbase():
         if save_pickle:
             self._create_pickle(self.currency_market_pairs, 'example_markets.pkl')
 
-    def get_trades(self, currency_pairs=None, save_pickle=False):
+    def get_trades(self, currency_pair=None, save_pickle=False):
 
         if self.exchange.has['fetchMyTrades']:
             since = self.exchange.parse8601('2023-01-01T00:00:00Z')
             all_trades = []
             while since < self.exchange.milliseconds ():
-                symbol = None  # change for your symbol
+                symbol = currency_pair  # change for your symbol
                 limit = 20  # change for your limit
                 trades = self.exchange.fetch_my_trades(symbol, since, limit)
                 if len(trades):
@@ -131,7 +131,6 @@ if __name__ == '__main__':
     coinbase = ConnectCoinbase()
     #coinbase.get_balance()
     #coinbase.get_markets(currency_pairs)
-    #coinbase.get_trades(save_pickle=True)
-    coinbase.create_order('ETH/GBP', 1, save_pickle=False)
-    #coinbase.get_trades(save_pickle=True)
+    #coinbase.create_order('ETH/GBP', 1, save_pickle=False)
+    coinbase.get_trades('ETH/GBP', save_pickle=False)
     #print(dir(ccxt.coinbase()))
