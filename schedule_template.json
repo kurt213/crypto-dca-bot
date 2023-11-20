@@ -34,5 +34,13 @@
         "buy_or_sell": "buy",
         "currency_pair": "ETH/GBP",
         "quote_currency_amount": 1
+    },
+    {
+        "frequency": "seconds",
+        "seconds": 120,
+        "time": "08:20",
+        "buy_or_sell": "buy",
+        "currency_pair": "ETH/GBP",
+        "quote_currency_amount": 1
     }
 ]
