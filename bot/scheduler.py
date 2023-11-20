@@ -13,6 +13,7 @@ class scheduleSetup():
     def create_schedule(self, task, exchange):
 
         choice_dict = {
+            'seconds': self._set_seconds,
             'hourly': self._set_hourly,
             'daily': self._set_daily,
             'weekly': self._set_weekly,
@@ -23,6 +24,15 @@ class scheduleSetup():
 
         chosen_function = choice_dict.get(task['frequency'], self._other_schedule)
         chosen_function(task, exchange)
+
+    def _set_seconds(self, task, exchange_function):
+        schedule.every(task['seconds']).seconds.do(exchange_function)
+        print('Schedule set: every {} seconds | {} {} for {} source currency'.format(
+            task['seconds'],
+            task['buy_or_sell'],
+            task['currency_pair'],
+            task['quote_currency_amount']
+        ))
 
     def _set_hourly(self, task, exchange_function):
         schedule.every().hour.do(exchange_function)
@@ -97,7 +107,7 @@ class scheduleSetup():
 
     def start_schedule(self):
 
-        if 'hourly' in self.frequency_list:
+        if 'hourly' in self.frequency_list or 'seconds' in self.frequency_list:
             sleep_time = 1
             print('hourly or less frequent schedule exists')
             print('set sleep time to 1 second')

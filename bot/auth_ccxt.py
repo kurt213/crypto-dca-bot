@@ -44,32 +44,28 @@ class ConnectCoinbase():
         for currency in total_all_currencies:
             print(currency, balance[currency])
 
-    def get_markets(self, currency_pairs=None, save_pickle=False):
+    def get_markets(self, currency_pair=None, save_pickle=False):
 
-        if currency_pairs is None:
-            print('No currency pairs provided, using default')
-            currency_pairs = [
-                'ETH/GBP',
-                'BTC/GBP'
-            ]
+        if currency_pair is None:
+            print('No currency pair provided, using default')
+            currency_pair = 'ETH/GBP'
 
         self.exchange.load_markets()
 
-        self.currency_market_pairs = {}
+        self.currency_market_pair = {}
 
-        for pair in currency_pairs:
-            market_pair = self.exchange.markets[pair]
+        market_pair = self.exchange.markets[currency_pair]
 
-            self.currency_market_pairs[market_pair['symbol']] = {
-                    'id': market_pair['id'],
-                    'price': market_pair['info']['price'],
-                    'base': market_pair['base'],
-                    'quote': market_pair['quote']
-                }
+        self.currency_market_pair[market_pair['symbol']] = {
+                'id': market_pair['id'],
+                'price': market_pair['info']['price'],
+                'base': market_pair['base'],
+                'quote': market_pair['quote']
+            }
         
-        print(self.currency_market_pairs)
+        print(self.currency_market_pair)
         if save_pickle:
-            self._create_pickle(self.currency_market_pairs, 'example_markets.pkl')
+            self._create_pickle(self.currency_market_pair, 'example_markets.pkl')
 
     def get_trades(self, currency_pair=None, save_pickle=False):
 
@@ -122,15 +118,10 @@ class ConnectCoinbase():
 
 if __name__ == '__main__':
 
-    currency_pairs = [
-        'ETH/GBP',
-        'BTC/GBP'
-    ]
-
     #print(ccxt.coinbasepro().describe())
     coinbase = ConnectCoinbase()
     #coinbase.get_balance()
-    #coinbase.get_markets(currency_pairs)
+    coinbase.get_markets('ETH/GBP')
     #coinbase.create_order('ETH/GBP', 1, save_pickle=False)
-    coinbase.get_trades('ETH/GBP', save_pickle=False)
+    #coinbase.get_trades('ETH/GBP', save_pickle=False)
     #print(dir(ccxt.coinbase()))

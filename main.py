@@ -13,7 +13,8 @@ if __name__ == '__main__':
     for task in task_schedule.schedule_data:
         currency_pair = task['currency_pair']
         quote_currency_amount = task['quote_currency_amount']
-        task_schedule.create_schedule(task, lambda: coinbase.create_order(currency_pair, quote_currency_amount))
+        task_schedule.create_schedule(task, lambda cp=currency_pair, qca=quote_currency_amount: coinbase.create_order(cp, qca))
+        #task_schedule.create_schedule(task, lambda cp=currency_pair: coinbase.get_markets(cp))
 
     task_schedule.show_schedule()
     task_schedule.start_schedule()
