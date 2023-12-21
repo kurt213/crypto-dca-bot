@@ -89,6 +89,7 @@ class ConnectCoinbase():
     def create_order(self, currency_pair=None, amount_quote_currency=None, save_pickle=False):
 
         if self.exchange.has['createMarketOrder']:
+            self.current_datetime = datetime.utcnow()
             print("current UTC time is: {}".format(self.current_datetime))
             print('try to create market order')
             print('currency pair: {}'.format(currency_pair))

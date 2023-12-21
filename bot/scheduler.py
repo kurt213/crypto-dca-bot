@@ -126,6 +126,8 @@ if __name__ == '__main__':
 
     def dummy_function(arg_1):
         print('dummy function')
+        current_datetime = datetime.utcnow()
+        print("current UTC time is: {}".format(current_datetime))        
         print(arg_1)
 
     task_schedule = scheduleSetup('schedule_template.json')
