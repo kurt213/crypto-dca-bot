@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from bot import auth_ccxt, scheduler
 import json
 
