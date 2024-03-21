@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   python-app:
     image: python:latest
@@ -7,8 +6,8 @@ services:
       - .:/usr/src/app  # Mounts the current directory to the container's '/usr/src/app'
       - ./logs:/usr/src/app/logs  # Ensure this directory exists on your host
     working_dir: /usr/src/app
-      #command: /bin/bash -c "echo 'Test log entry' >> /usr/src/app/logs/dcabot.log"
     command: /bin/bash -c "python -u ./main.py >> /usr/src/app/logs/dcabot.log 2>&1"
+    restart: always  # Ensures the container always restarts
     build:
       context: .
       dockerfile: Dockerfile
